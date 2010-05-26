@@ -24,12 +24,13 @@ public class BookFinderFactory {
   public static void init(Directory index) {
     File dir = new File("WEB-INF/texts");
     File[] files = dir.listFiles();
-    
+        
     for(File file : files) {
       System.out.println("Reading : " + file.getName());
       if(file.isFile()) {
         try {
           FileReader reader = new FileReader(file);
+
         } catch (FileNotFoundException e) {
           // TODO Auto-generated catch block
           e.printStackTrace();
