@@ -1,44 +1,20 @@
 package lucenedemo;
 
-import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.RAMDirectory;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 
 public class BookFinderFactory {
   
-  private static Directory index;
+  private static BookFinder finder;
   
-  /*
-   * Build the index
-   * 
-   * Don't know if it makes sense to write it like this
-   */
-  public static void init() {
-    index = new RAMDirectory();
-    init(index);
+  private BookFinderFactory() {};
+  
+  public static synchronized BookFinder getInstance() {
+    
+   if(finder == null) {
+     finder = new BookFinder(new RAMDirectory());
+   }
+   return finder;
+    
   }
-  
-  public static void init(Directory index) {
-    File dir = new File("WEB-INF/texts");
-    File[] files = dir.listFiles();
-        
-    for(File file : files) {
-      System.out.println("Reading : " + file.getName());
-      if(file.isFile()) {
-        try {
-          FileReader reader = new FileReader(file);
-
-        } catch (FileNotFoundException e) {
-          // TODO Auto-generated catch block
-          e.printStackTrace();
-        } 
-      }
-    }
-  }
-  
-  
 
 }
