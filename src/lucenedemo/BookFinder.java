@@ -3,6 +3,7 @@ package lucenedemo;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
+import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.RAMDirectory;
@@ -42,30 +43,37 @@ public class BookFinder {
     File[] files = dir.listFiles();
     
     for(File file : files) {
-      if(file.isFile()) {
-        try {
-          Document doc = new Document();
-          doc.add(new Field("filename", file.getName(), Field.Store.YES, Field.Index.ANALYZED));          
-          doc.add(new Field("filename", new FileReader(file)));
-          
-          writer.addDocument(doc);
-          long fileSize = file.length();          
-          log.info("Indexed " + file.getName() + " File size: " + fileSize);
-        } catch (FileNotFoundException e) {
-          // TODO Auto-generated catch block
-          e.printStackTrace();
-        } 
-      }
+      addToIndex(writer, file);
     }
     
     // Optimize causes thread errors, GRRR
     // writer.optimize();
     writer.close();
 
-
     long totalIndexingTime = System.currentTimeMillis() - indexingStartTime;
     log.info("Indexed " + files.length + " files in " + totalIndexingTime + "ms");
 
+  }
+  
+  /*
+   * Add a file to an IndexWriter 
+   */
+  private void addToIndex(IndexWriter writer, File file) throws CorruptIndexException, IOException {
+    if(file.isFile()) {
+      try {
+        Document doc = new Document();
+        doc.add(new Field("filename", file.getName(), Field.Store.YES, Field.Index.ANALYZED));          
+        doc.add(new Field("filename", new FileReader(file)));
+        
+        writer.addDocument(doc);
+        long fileSize = file.length();          
+        log.info("Indexed " + file.getName() + " File size: " + fileSize);
+      } catch (FileNotFoundException e) {
+        // This would be a good place for a log.wtf(), since we you can't delete
+        // files from GAE after uploading it to appspot.com
+        e.printStackTrace();
+      } 
+    }
   }
   
   
