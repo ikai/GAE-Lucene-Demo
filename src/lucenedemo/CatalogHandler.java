@@ -1,10 +1,12 @@
 package lucenedemo;
 
 import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import java.io.IOException;
 import java.util.logging.Logger;
+
+import lucenedemo.BookFinder.IndexNotWritableException;
 
 /*
  * SAX handler. Lots of help from http://www.totheriver.com/learn/xml/xmltutorial.html
@@ -16,6 +18,23 @@ public class CatalogHandler extends DefaultHandler {
   
   private Book currentBook;
   private String tempVal;
+  private BookFinder finder;
+  
+
+  @Override
+  public void startDocument() {
+    log.info("Starting to parse XML");
+    finder = BookFinderFactory.getInstance();
+    try {
+      finder.openIndexForWriting();
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (IndexNotWritableException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+  }
   
   @Override
   public void startElement(String uri, String localName, String qName,
@@ -52,8 +71,19 @@ public class CatalogHandler extends DefaultHandler {
 
   }
   
+  
   @Override
   public void endDocument() {
-    log.info("Parsed " + elementCounter + " elements.");
+    try {
+      finder.close();
+      log.info("Parsed " + elementCounter + " elements.");
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (IndexNotWritableException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    
   }
 }
