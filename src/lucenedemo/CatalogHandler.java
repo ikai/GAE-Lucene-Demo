@@ -61,7 +61,7 @@ public class CatalogHandler extends DefaultHandler {
         if(qName.equalsIgnoreCase("pgterms:etext")) {
         // Okay, now we index it
           try {
-            log.info("Indexing book: " + currentBook);
+            log.fine("Indexing book: " + currentBook);
             finder.addBook(currentBook);
             
           } catch (IndexNotWritableException e) {
