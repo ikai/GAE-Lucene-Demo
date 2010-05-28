@@ -31,31 +31,33 @@ public class CatalogIndexBuilderServlet extends HttpServlet {
     
     for(File file : files) {
       if(file.isFile() && file.getName().endsWith(".xml")) {
-        SAXParserFactory spf = SAXParserFactory.newInstance();
-        
-        try {
-          log.info("started parsing file " + file.getName());
-          out.println("parsing file " + file.getName()); 
-          SAXParser sp = spf.newSAXParser();
-          CatalogHandler ch = new CatalogHandler();
-          sp.parse(file, ch);
-
-          log.info("finished parsing file " + file.getName()); 
-          
-        } catch (Exception e) {
-          // TODO Auto-generated catch block
-          e.printStackTrace();
-        } finally {
-          
-        }
-    
+        parseCatalogXml(file);
       }
     }
     
     long totalIndexingTime = System.currentTimeMillis() - indexingStartTime;
     out.println("Indexed in " + totalIndexingTime + "ms");
     
+  }
+
+  private void parseCatalogXml(File file) {
+    SAXParserFactory spf = SAXParserFactory.newInstance();
     
+    try {
+      log.info("started parsing file " + file.getName());
+      log.info("parsing file " + file.getName()); 
+      SAXParser sp = spf.newSAXParser();
+      CatalogHandler ch = new CatalogHandler();
+      sp.parse(file, ch);
+
+      log.info("finished parsing file " + file.getName()); 
+      
+    } catch (Exception e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } finally {
+      
+    }
   }
   
 }
