@@ -11,9 +11,19 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
     <servlet-class>lucenedemo.CatalogIndexBuilderServlet</servlet-class>
   </servlet>
 
-    <servlet-mapping>
+  <servlet>
+    <servlet-name>Search</servlet-name>
+    <servlet-class>lucenedemo.SearchServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
     <servlet-name>BuildCatalogIndex</servlet-name>
     <url-pattern>/catalog/index/build</url-pattern>
+  </servlet-mapping>
+  
+  <servlet-mapping>
+    <servlet-name>Search</servlet-name>
+    <url-pattern>/search</url-pattern>
   </servlet-mapping>
   
 	<welcome-file-list>

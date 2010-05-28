@@ -60,7 +60,18 @@ public class CatalogHandler extends DefaultHandler {
       String qName) {
         if(qName.equalsIgnoreCase("pgterms:etext")) {
         // Okay, now we index it
-          log.info("Indexing book: " + currentBook);
+          try {
+            log.info("Indexing book: " + currentBook);
+            finder.addBook(currentBook);
+            
+          } catch (IndexNotWritableException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+          } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+          }
+          
         } else if (qName.equals("dc:title")) {
           currentBook.setTitle(tempVal);
         } else if (qName.equals("dc:creator")) {
@@ -77,6 +88,7 @@ public class CatalogHandler extends DefaultHandler {
     try {
       finder.close();
       log.info("Parsed " + elementCounter + " elements.");
+      // log.info("Indexed" + finder.);
     } catch (IOException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
