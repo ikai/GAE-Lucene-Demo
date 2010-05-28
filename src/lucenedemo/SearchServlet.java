@@ -17,16 +17,35 @@ public class SearchServlet extends HttpServlet {
   
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String term = request.getParameter("term");
+    String title = request.getParameter("title");
+    String author = request.getParameter("author");
+    String language = request.getParameter("lang");
+    
+    StringBuilder queryBuilder = new StringBuilder();
+        
+    if(language != null && !language.equals("all")) {
+      queryBuilder.append(" language:" + language);
+    }
+
+    if(title != null && !title.isEmpty()) {
+      queryBuilder.append(" title:" + title);
+    }
+
+    if(author != null && !author.isEmpty()) {
+      queryBuilder.append(" author:" + author);
+    }
+
     
     response.setContentType("text/html");
     
+    String query = queryBuilder.toString();
+    
     PrintWriter out = response.getWriter();
-    out.println("<h1>Search for term: " + term + "</h1>");
+    out.println("<h1>Search with query: " + query + "</h1>");
     BookFinder finder = BookFinderFactory.getInstance();
     
     try {
-      BookResults results = finder.search(term); 
+      BookResults results = finder.search(query); 
       out.println("<h2>Results</h2>");
       out.println("<ol>");
       for(Book book : results.getBooks()) {
@@ -34,7 +53,7 @@ public class SearchServlet extends HttpServlet {
       }
       out.println("</ol>");
     } catch (ParseException e) {
-      out.println("Unable to parse query");
+      out.println("Unable to parse query: " + query);
     } catch (IndexNotBuiltException e) {
       out.println("Index not yet built");
 
