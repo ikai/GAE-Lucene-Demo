@@ -4,7 +4,6 @@ import org.apache.lucene.queryParser.ParseException;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -27,9 +26,13 @@ public class SearchServlet extends HttpServlet {
     BookFinder finder = BookFinderFactory.getInstance();
     
     try {
-      finder.search(term);
-      
-      
+      BookResults results = finder.search(term); 
+      out.println("<h2>Results</h2>");
+      out.println("<ol>");
+      for(Book book : results.getBooks()) {
+        out.println("<li>" + book + "</li>");
+      }
+      out.println("</ol>");
     } catch (ParseException e) {
       out.println("Unable to parse query");
     } catch (IndexNotBuiltException e) {

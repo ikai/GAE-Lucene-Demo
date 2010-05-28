@@ -5,12 +5,13 @@ import java.util.List;
 
 public class BookResults {
   private int totalHits;
-  private List<Book> books = new LinkedList<Book>();
+  private List<Book> books;
   
   
   public BookResults(int totalHits) {
     super();
     this.totalHits = totalHits;
+    books = new LinkedList<Book>();
   }
   
   public int getTotalHits() {
@@ -23,6 +24,10 @@ public class BookResults {
   
   public void addBook(Book book) {
     books.add(book);
+  }
+  
+  public List<Book> getBooks() {
+    return books;
   }
   
   
