@@ -2,9 +2,10 @@ package lucenedemo;
 
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexWriter;
+import org.apache.lucene.index.MergeScheduler;
+import org.apache.lucene.index.SerialMergeScheduler;
 import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.queryParser.QueryParser;
 import org.apache.lucene.search.IndexSearcher;
@@ -18,9 +19,10 @@ import org.apache.lucene.util.Version;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.logging.Logger;
 
-public class BookFinder {
+public class BookFinder implements Serializable {
 
   private static final Logger log = Logger.getLogger(BookFinder.class.getName());
 
@@ -31,6 +33,10 @@ public class BookFinder {
   public BookFinder(Directory index) {
     this.index = index;
   }
+  
+  public int size() throws IOException {
+    return this.index.listAll().length;
+  }
 
   public void openIndexForWriting() throws IOException, IndexNotWritableException {
     log.info("Opened Index for writing");
@@ -38,6 +44,12 @@ public class BookFinder {
       writer =
           new IndexWriter(index, new StandardAnalyzer(Version.LUCENE_30),
               IndexWriter.MaxFieldLength.LIMITED);
+      
+      // writer.setMaxBufferedDocs(50);
+      writer.setRAMBufferSizeMB(0.3);
+      MergeScheduler mergeScheduler = new SerialMergeScheduler();
+      this.writer.setMergeScheduler(mergeScheduler);
+      
     } catch (CorruptIndexException e) {
       throw new IndexNotWritableException("Corrupted Index");
     } catch (LockObtainFailedException e) {
@@ -48,12 +60,22 @@ public class BookFinder {
 
   public void close() throws IOException, IndexNotWritableException {
     try {
-
+      
       this.writer.close();
     } catch (CorruptIndexException e) {
       throw new IndexNotWritableException("Could not close IndexWriter");
     } finally {
       this.writer = null;
+    }
+  }
+  
+  public void indexSize() throws IOException {
+    String[] files = this.index.listAll();
+    
+    for(String file : files) {
+      long length = this.index.fileLength(file);
+      log.info("File size: " + this.index.fileLength(file));
+      
     }
   }
 

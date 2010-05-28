@@ -12,6 +12,12 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
   </servlet>
 
   <servlet>
+    <servlet-name>SaveIndex</servlet-name>
+    <servlet-class>lucenedemo.SaveIndexServlet</servlet-class>
+  </servlet>
+
+
+  <servlet>
     <servlet-name>Search</servlet-name>
     <servlet-class>lucenedemo.SearchServlet</servlet-class>
   </servlet>
@@ -19,6 +25,11 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
   <servlet-mapping>
     <servlet-name>BuildCatalogIndex</servlet-name>
     <url-pattern>/catalog/index/build</url-pattern>
+  </servlet-mapping>
+  
+  <servlet-mapping>
+    <servlet-name>SaveIndex</servlet-name>
+    <url-pattern>/catalog/index/save</url-pattern>
   </servlet-mapping>
   
   <servlet-mapping>
