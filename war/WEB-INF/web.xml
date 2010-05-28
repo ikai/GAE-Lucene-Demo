@@ -4,15 +4,6 @@ xmlns="http://java.sun.com/xml/ns/javaee"
 xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
 http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
-	<servlet>
-		<servlet-name>Lucene_Demo</servlet-name>
-		<servlet-class>lucenedemo.Lucene_DemoServlet</servlet-class>
-	</servlet>
-
-  <servlet>
-    <servlet-name>BuildIndex</servlet-name>
-    <servlet-class>lucenedemo.BuildIndexServlet</servlet-class>
-  </servlet>
 
 
   <servlet>
@@ -20,18 +11,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
     <servlet-class>lucenedemo.CatalogIndexBuilderServlet</servlet-class>
   </servlet>
 
-  
-	<servlet-mapping>
-		<servlet-name>Lucene_Demo</servlet-name>
-		<url-pattern>/lucene_demo</url-pattern>
-	</servlet-mapping>
-  
-  <servlet-mapping>
-    <servlet-name>BuildIndex</servlet-name>
-    <url-pattern>/index/build</url-pattern>
-  </servlet-mapping>
-
-  <servlet-mapping>
+    <servlet-mapping>
     <servlet-name>BuildCatalogIndex</servlet-name>
     <url-pattern>/catalog/index/build</url-pattern>
   </servlet-mapping>
