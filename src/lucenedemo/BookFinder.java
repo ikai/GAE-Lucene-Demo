@@ -89,8 +89,13 @@ public class BookFinder {
   }
 
 
-  public void search(String queryString) throws CorruptIndexException, IOException, ParseException {
-    Searcher searcher = new IndexSearcher(index);
+  public void search(String queryString) throws CorruptIndexException, IOException, ParseException, IndexNotBuiltException {
+    try { 
+      Searcher searcher = new IndexSearcher(index);
+    }
+    catch (FileNotFoundException e) {
+      throw new IndexNotBuiltException(e.getMessage());
+    }
     
     QueryParser parser = new QueryParser(Version.LUCENE_30, 
         "contents", 
@@ -105,6 +110,14 @@ public class BookFinder {
   class IndexNotWritableException extends Exception {
 
     public IndexNotWritableException(String message) {
+      super(message);
+    }
+    
+  }
+  
+  class IndexNotBuiltException extends Exception {
+    
+    public IndexNotBuiltException(String message) {
       super(message);
     }
     
