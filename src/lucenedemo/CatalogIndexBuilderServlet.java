@@ -24,6 +24,7 @@ public class CatalogIndexBuilderServlet extends HttpServlet {
     out.println("Building catalog index ... ");
     long indexingStartTime = System.currentTimeMillis();
     
+    BookFinderFactory.reset();
     
     File dir = new File("WEB-INF/catalog");
     File[] files = dir.listFiles();

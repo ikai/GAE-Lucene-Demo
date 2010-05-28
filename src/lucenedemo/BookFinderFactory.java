@@ -16,5 +16,9 @@ public class BookFinderFactory {
    return finder;
     
   }
+  
+  public static synchronized void reset() {
+    finder = null;
+  }
 
 }

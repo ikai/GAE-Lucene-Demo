@@ -62,29 +62,7 @@ public class BookFinder {
     if (this.writer == null) {
       throw new IndexNotWritableException("IndexWriter closed. Must call openIndexForWriting()");
     } else {
-      Document doc = new Document();
-
-      // Books ALWAYS have IDs
-
-      doc.add(new Field("id", book.getId(), Field.Store.YES, Field.Index.NOT_ANALYZED));
-
-      if (book.getTitle() != null) {
-        doc.add(new Field("title", book.getTitle(), Field.Store.YES, Field.Index.ANALYZED));
-      }
-
-      if (book.getAuthor() != null) { // Prevent "value cannot be null"
-                                      // exception
-        doc.add(new Field("author", book.getAuthor(), Field.Store.YES, Field.Index.ANALYZED));
-      }
-
-      if (book.getLanguage() != null) {
-        // The Human Genome, for instance, has no language
-        doc
-            .add(new Field("language", book.getLanguage(), Field.Store.YES,
-                Field.Index.NOT_ANALYZED));
-      }
-
-      writer.addDocument(doc);
+      writer.addDocument(book.toDocument());
     }
 
   }
