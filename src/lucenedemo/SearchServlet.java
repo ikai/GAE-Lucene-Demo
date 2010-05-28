@@ -2,7 +2,6 @@ package lucenedemo;
 
 import org.apache.lucene.queryParser.ParseException;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.logging.Logger;
@@ -10,14 +9,12 @@ import java.util.logging.Logger;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 
 import lucenedemo.BookFinder.IndexNotBuiltException;
 
 public class SearchServlet extends HttpServlet {
   
-  private static final Logger log = Logger.getLogger(SearchServlet.class.getName());
+  // private static final Logger log = Logger.getLogger(SearchServlet.class.getName());
   
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {

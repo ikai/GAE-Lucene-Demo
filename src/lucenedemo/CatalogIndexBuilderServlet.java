@@ -1,7 +1,5 @@
 package lucenedemo;
 
-import org.xml.sax.SAXException;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -10,7 +8,6 @@ import java.util.logging.Logger;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 

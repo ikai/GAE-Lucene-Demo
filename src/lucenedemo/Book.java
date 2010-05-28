@@ -1,5 +1,7 @@
 package lucenedemo;
 
+import org.apache.lucene.document.Document;
+
 public class Book {
   
   private String id;
@@ -10,6 +12,17 @@ public class Book {
   
   private String language;
 
+  public static Book buildFromDocument(Document doc) {
+    Book book = new Book();
+    
+    book.setAuthor(doc.get("author"));
+    book.setLanguage(doc.get("language"));
+    book.setTitle(doc.get("title"));
+    book.setId(doc.get("id"));
+    
+    return book;
+  };
+  
   public String getId() {
     return id;
   }
